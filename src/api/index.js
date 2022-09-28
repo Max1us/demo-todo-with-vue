@@ -11,10 +11,10 @@ let api = {
     let appwrite = new Appwrite();
     appwrite.setEndpoint(Server.endpoint).setProject(Server.project);
     const account = new Account(appwrite);
-    const database = new Databases(appwrite, Server.database);
+    const database = new Databases(appwrite);
 
     api.sdk = { database, account };
-    return appwrite;
+    return api.sdk;
   },
 
   createAccount: (email, password, name) => {
@@ -36,21 +36,21 @@ let api = {
   createDocument: (collectionId, data, read, write) => {
     return api
       .provider()
-      .database.createDocument(collectionId, 'unique()', data, read, write);
+      .database.createDocument(Server.database, collectionId, 'unique()', data, [read, write]);
   },
 
   listDocuments: (collectionId) => {
-    return api.provider().database.listDocuments(collectionId);
+    return api.provider().database.listDocuments(Server.database, collectionId);
   },
 
   updateDocument: (collectionId, documentId, data, read, write) => {
     return api
       .provider()
-      .database.updateDocument(collectionId, documentId, data, read, write);
+      .database.updateDocument(Server.database, collectionId, documentId, data, [read, write]);
   },
 
   deleteDocument: (collectionId, documentId) => {
-    return api.provider().database.deleteDocument(collectionId, documentId);
+    return api.provider().database.deleteDocument(Server.database, collectionId, documentId);
   },
 };
 

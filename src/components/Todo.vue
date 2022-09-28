@@ -60,11 +60,11 @@ export default {
           content: this.content,
           isComplete: false,
         };
-        const read = [`user:${userId}`];
+        const read = `Role.user:("${userId}")`;
         this.addTodo({
           data,
-          read,
-          write: read,
+          read: `Permission.read(${read})`,
+          write: `Permission.write(${read})`,
         });
         this.content = ""
       }
